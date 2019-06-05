@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Алина Зимонина](https://up.htmlacademy.ru/javascript/17/user/1100385).
-* Наставник: `Неизвестно`.
+* Наставник: [Павел Скрипкин](https://htmlacademy.ru/profile/id604273).
 
 ---
 
