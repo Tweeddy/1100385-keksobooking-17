@@ -1,4 +1,4 @@
-'use strict'; 
+'use strict';
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 var similarListElement = document.querySelector('.map__pins');
@@ -20,7 +20,7 @@ var getRandomNumber = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
   rand = Math.round(rand);
   return rand;
-}; 
+};
 
 var getRandomElement = function (array) {
   return array[getRandomNumber(0, array.length)];
