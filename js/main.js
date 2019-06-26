@@ -1,101 +1,65 @@
 'use strict'
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
+var similarListElement = document.querySelector('.map__pins');
 
-var TYPE = ['palace', 'flat', 'house', 'bungalo'];
-var AVATARS_NUMBER = 8;
+var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var NOTES_COUNT = 8;
 var MIN_X = 0;
-var MAX_X = 1050;
+var MAX_X = 1120;
 var MIN_Y = 130;
 var MAX_Y = 630;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
 
-/*var getRandomNumber = function (min, max) {
+for (var AVATARS = [], i = 1; i <= NOTES_COUNT; i++) {
+  AVATARS.push('img/avatars/user' + 0 + i + '.png');
+}
+
+var getRandomNumber = function (min, max) {
     var rand = min - 0.5 + Math.random() * (max - min + 1);
     rand = Math.round(rand);
     return rand;
   };
-*/
 
-var getRandomNumber = function (massiv) {
-    var min = massiv[0];
-    var max = massiv.length;
+var getRandomElement = function(array) {
+  return array[getRandomNumber(0, array.length)];
+};
 
-    var rand = min - 0.5 + Math.random() * (max - min + 1);
-    rand = Math.round(rand);
+var generateNotes = function () {
+  var notes = [];
+  var avatars = AVATARS.slice();
 
-    console.log('odin' + massiv);
-    console.log('dua' + rand);
-    return rand;
-
-}
-
-var getArray = function(j) {
-    var mas = [];
-    for (var i = 0; i < AVATARS_NUMBER; i++) {
-        mas[i] = i+1;
-    }
-    console.log(mas);
-    var arr = mas.slice();
-    return arr;
-}
-getRandomNumber(getArray());
-
-
-var generateNote = function () {
-    var note = {};
-    note.author = {};
-    note.author.avatar = 'img/avatars/users' + '0' + getRandomNumber(1, AVATARS_NUMBER); //это осталось от старой функции
-    note.offer = {};
-    note.offer.type = TYPE[getRandomNumber(0, TYPE.length - 1)];
-    note.location = {};
-    note.location.x = getRandomNumber (MIN_X, MAX_X);
-    note.location.y = getRandomNumber(MIN_Y, MAX_Y);
-    //console.log('x = ' + note.location.x);
-    //console.log('y = ' + note.location.y);
-    return note;
-}
-
-var createNote = function () {
-    var noteList = [];
-    for (var i = 0; i < AVATARS_NUMBER ; i++) {
-        var noteObject = generateNote();
-        noteList[i] = noteObject;
-    }
-   // console.log(noteList);
-    return noteList;
-}
-//createNote();
-/*
-var pinTemplate = document.querySelector('#pin');
-console.log(pinTemplate);
-
-var renderNote = function () {
-    var pinElement = pinTemplate.cloneNode(true);
-
-    var pin = pinElement.content.querySelector('.map__pin');
-    pin.style =  'left:' + generateNote().location.x + 'px; top:' + generateNote().location.y + 'px';
-    
-    pinElement.img.src = 'generateNote().author.avatar';
-    return pinElement;
-
-}
-
-var fragment = document.createDocumentFragment();
-
-var list = createNote();
-
-for (var i = 0; i < list.length; i++) {
-    fragment.appendChild(renderNote(list[i]));
+  for (var i = 0; i < NOTES_COUNT; i++) {
+    notes.push({
+      author: {
+        avatar: avatars.splice(getRandomNumber(0, avatars.length - 1) , 1)[0]
+      },
+      offer: {
+        type: getRandomElement(TYPES)
+      },
+      location: {
+        x: getRandomNumber(MIN_X, MAX_X) + PIN_WIDTH / 2,
+        y: getRandomNumber(MIN_Y, MAX_Y) + PIN_HEIGHT / 2
+      }
+    });
   }
+  return notes;
+};
 
-  var similarListElement = document.querySelector('.map__pins');
-  similarListElement.appendChild(fragment);
-
-*/
-
-
-
-
-
-
-
+var renderNotes = function() {
+    var fragment = document.createDocumentFragment();
+    var pinTemplate = document.querySelector('#pin').content;
+    var notes = generateNotes();
+  
+    for (var i = 0; i < notes.length; i++) {
+        var pin = pinTemplate.querySelector('.map__pin').cloneNode(true);
+        var image = pin.querySelector('img');
+        pin.style = 'left:' + notes[i].location.x + 'px; top:' + notes[i].location.y + 'px';
+        image.src = notes[i].author.avatar;
+        image.alt = 'заголовок объявления'
+        fragment.appendChild(pin);
+    }
+    similarListElement.appendChild(fragment);
+};
+renderNotes();
