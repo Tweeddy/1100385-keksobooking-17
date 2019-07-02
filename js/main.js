@@ -1,8 +1,4 @@
 'use strict';
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-var similarListElement = document.querySelector('.map__pins');
-
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var NOTES_COUNT = 8;
 var MIN_X = 0;
@@ -11,10 +7,35 @@ var MIN_Y = 130;
 var MAX_Y = 630;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
-
+var PIN_X = 570;
+var PIN_Y = 375;
 for (var AVATARS = [], i = 1; i <= NOTES_COUNT; i++) {
   AVATARS.push('img/avatars/user' + 0 + i + '.png');
 }
+var map = document.querySelector('.map');
+var forms = document.querySelector('.ad-form');
+var similarListElement = document.querySelector('.map__pins');
+var mainPin = map.querySelector('.map__pin--main');
+var adress = document.querySelector('#address');
+var fields = document.querySelectorAll('fieldset');
+
+for (i = 0; i < fields.length; i++) {
+  fields[i].setAttribute('disabled', 'disabled');
+}
+
+var pinMouseupHandler = function () {
+  map.classList.remove('map--faded');
+  forms.classList.remove('ad-form--disabled');
+  renderNotes();
+  addAdress();
+  mainPin.removeEventListener('click', pinMouseupHandler);
+};
+
+mainPin.addEventListener('click', pinMouseupHandler);
+
+var addAdress = function () {
+  adress.value = PIN_X + '.' + PIN_Y;
+};
 
 var getRandomNumber = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -61,4 +82,4 @@ var renderNotes = function () {
   }
   similarListElement.appendChild(fragment);
 };
-renderNotes();
+addAdress();
