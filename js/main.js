@@ -85,20 +85,10 @@ var renderNotes = function () {
 };
 
 var notice = document.querySelector('.notice');
-var title = notice.querySelector('#title');
 var pricePerNight = notice.querySelector('#price');
 var type = notice.querySelector('#type');
 var timeIn = notice.querySelector('#timein');
 var timeOut = notice.querySelector('#timeout');
-
-var validateFields = function () {
-  title.setAttribute('required', 'required');
-  title.setAttribute('minlength', '30');
-  title.setAttribute('maxlength', '100');
-  pricePerNight.setAttribute('required', 'required');
-  pricePerNight.setAttribute('max', '1000000');
-};
-
 
 var typeChangeHandler = function (evt) {
   switch (evt.target.value) {
@@ -121,36 +111,15 @@ var typeChangeHandler = function (evt) {
   }
 };
 
-var timeInChangeHandler = function (evt) {
-  switch (evt.target.value) {
-    case '12:00':
-      timeOut.value = '12:00';
-      break;
-    case '13:00':
-      timeOut.value = '13:00';
-      break;
-    case '14:00':
-      timeOut.value = '14:00';
-      break;
-  }
+var timeInChangeHandler = function () {
+  timeOut.value = timeIn.value;
 };
 
-var timeOutChangeHandler = function (evt) {
-  switch (evt.target.value) {
-    case '12:00':
-      timeIn.value = '12:00';
-      break;
-    case '13:00':
-      timeIn.value = '13:00';
-      break;
-    case '14:00':
-      timeIn.value = '14:00';
-      break;
-  }
+var timeOutChangeHandler = function () {
+  timeIn.value = timeOut.value;
 };
 
 mainPin.addEventListener('click', pinMouseupHandler);
 type.addEventListener('change', typeChangeHandler);
 timeIn.addEventListener('change', timeInChangeHandler);
 timeOut.addEventListener('change', timeOutChangeHandler);
-validateFields();
