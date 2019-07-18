@@ -16,7 +16,7 @@
     for (i = 0; i < fields.length; i++) {
       fields[i].removeAttribute('disabled');
     }
-    window.data.renderNotes();
+    window.load(window.data.successHandler, window.data.errorHandler);
     mainPin.removeEventListener('click', mapActiveHandler);
   };
   var active = false;
