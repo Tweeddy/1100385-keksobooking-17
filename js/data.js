@@ -2,6 +2,7 @@
 (function () {
   var PIN_OFFSET_X = 32;
   var PIN_OFFSET_Y = 87;
+  var PINS_NUMBER = 5;
   var adress = document.querySelector('#address');
   var similarListElement = document.querySelector('.map__pins');
 
@@ -9,7 +10,7 @@
     addAdress: function (adressX, adressY) {
       adress.value = (adressX + PIN_OFFSET_X) + ', ' + (adressY + PIN_OFFSET_Y);
     },
-    renderNotes: function (note) {
+    generateNotes: function (note) {
       var pinTemplate = document.querySelector('#pin').content;
       var pin = pinTemplate.querySelector('.map__pin').cloneNode(true);
       pin.querySelector('img').src = note.author.avatar;
@@ -17,18 +18,20 @@
       pin.style = 'left:' + note.location.x + 'px; top:' + note.location.y + 'px';
       return pin;
     },
-    successHandler: function (notes) {
+    removeNotes: function () {
+      var allPins = document.querySelectorAll('.map__pin');
+      for (var i = 1; i < allPins.length; i++) {
+        similarListElement.removeChild(similarListElement.lastChild);
+      }
+    },
+    renderNotes: function (notes) {
+      window.data.removeNotes();
       var fragment = document.createDocumentFragment();
-      for (var i = 0; i < notes.length; i++) {
-        fragment.appendChild(window.data.renderNotes(notes[i]));
+      var takeNumber = notes.length > PINS_NUMBER ? PINS_NUMBER : notes.length;
+      for (var i = 0; i < takeNumber; i++) {
+        fragment.appendChild(window.data.generateNotes(notes[i]));
       }
       similarListElement.appendChild(fragment);
     },
-    errorHandler: function (errorMessage) {
-      var errorTemplate = document.querySelector('#error').content.cloneNode(true);
-      errorTemplate.querySelector('p').textContent = errorMessage;
-      var promo = document.querySelector('main');
-      promo.appendChild(errorTemplate);
-    }
   };
 }());
