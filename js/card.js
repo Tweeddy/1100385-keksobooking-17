@@ -60,7 +60,7 @@
         img.src = cardData.offer.photos[i];
         photos.appendChild(img);
       }
-      photos.removeChild(photos.firstChild);
+      photos.removeChild(photos.children[0]);
       return card;
     },
     renderCard: function (data) {
