@@ -13,6 +13,9 @@
     generateNotes: function (note) {
       var pinTemplate = document.querySelector('#pin').content;
       var pin = pinTemplate.querySelector('.map__pin').cloneNode(true);
+      pin.addEventListener('click', function () {
+        window.card.renderCard(note);
+      });
       pin.querySelector('img').src = note.author.avatar;
       pin.querySelector('img').alt = 'заголовок объявления';
       pin.style = 'left:' + note.location.x + 'px; top:' + note.location.y + 'px';
