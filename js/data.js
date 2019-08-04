@@ -8,6 +8,7 @@
 
   window.data = {
     addAdress: function (adressX, adressY) {
+      adress.setAttribute('disabled', 'disabled');
       adress.value = (adressX + PIN_OFFSET_X) + ', ' + (adressY + PIN_OFFSET_Y);
     },
     generateNotes: function (note) {

@@ -5,32 +5,30 @@
   var mapFiltersContainer = document.querySelector('.map__filters-container');
   var cardTemplate = document.querySelector('#card').content.cloneNode(true);
   var card = cardTemplate.querySelector('.popup');
-  var closeButton = card.querySelector('.popup__close');
-  var photos = card.querySelector('.popup__photos');
+  var closeButton = cardTemplate.querySelector('.popup__close');
+  var photos = cardTemplate.querySelector('.popup__photos');
+
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
+      closePopup(map, card);
     }
   };
+
   var closePopup = function () {
-    map.removeChild(card);
+    card.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
   };
+
   closeButton.addEventListener('click', function () {
     closePopup();
   });
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
-    }
-  });
-  var removePhotos = function () {
-    var allPhotos = document.querySelectorAll('.popup__photo');
-    for (var i = 1; i < allPhotos.length; i++) {
-      photos.removeChild(photos.lastChild);
-    }
-  };
   window.card = {
+    removePhotos: function () {
+      var allPhotos = document.querySelectorAll('.popup__photo');
+      for (var i = 1; i < allPhotos.length; i++) {
+        photos.removeChild(photos.lastChild);
+      }
+    },
     generateCard: function (cardData) {
       card.querySelector('.popup__title').textContent = cardData.offer.title;
       card.querySelector('.popup__text--address').textContent = cardData.offer.address;
@@ -54,7 +52,7 @@
       card.querySelector('.popup__features').textContent = cardData.offer.features.join();
       card.querySelector('.popup__description').textContent = cardData.offer.description;
       card.querySelector('.popup__avatar').src = cardData.author.avatar;
-      removePhotos();
+      this.removePhotos();
       for (var i = 0; i < cardData.offer.photos.length; i++) {
         var img = photos.querySelector('img').cloneNode(true);
         img.src = cardData.offer.photos[i];
@@ -64,8 +62,8 @@
       return card;
     },
     renderCard: function (data) {
-      document.addEventListener('keydown', onPopupEscPress);
       map.insertBefore(window.card.generateCard(data), mapFiltersContainer);
+      document.addEventListener('keydown', onPopupEscPress);
     }
   };
 }());

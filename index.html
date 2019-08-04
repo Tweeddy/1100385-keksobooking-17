@@ -117,7 +117,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input required max="1000000" id="price" name="price" type="number" placeholder="5000">
+          <input required max="1000000" id="price" name="price" type="number" placeholder="1000">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -144,10 +144,10 @@
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
           <select id="capacity" name="capacity">
-            <option value="3" selected>для 3 гостей</option>
-            <option value="2">для 2 гостей</option>
-            <option value="1">для 1 гостя</option>
-            <option value="0">не для гостей</option>
+            <option id='three' value="3" >для 3 гостей</option>
+            <option id='two' value="2">для 2 гостей</option>
+            <option id='one' value="1" selected>для 1 гостя</option>
+            <option id ='none' value="0">не для гостей</option>
           </select>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide features">
@@ -248,12 +248,12 @@
     </div>
   </template>
   <script src='js/load.js'> </script>
+  <script src='js/upload.js'> </script>
   <script src='js/setup.js'> </script>
   <script src='js/utils.js'> </script>
   <script src='js/data.js'> </script>
   <script src='js/pins.js'> </script>
   <script src='js/fields.js'> </script>
   <script src='js/card.js'> </script>
- 
   </body>
 </html>

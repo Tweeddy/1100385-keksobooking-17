@@ -2,25 +2,8 @@
 (function () {
   var PIN_X = 570;
   var PIN_Y = 375;
-  var map = document.querySelector('.map');
-  var forms = document.querySelector('.ad-form');
-  var mainPin = map.querySelector('.map__pin--main');
-  var fields = document.querySelectorAll('fieldset');
-  for (var i = 0; i < fields.length; i++) {
-    fields[i].setAttribute('disabled', 'disabled');
-  }
-  var mapActiveHandler = function () {
-    active = true;
-    map.classList.remove('map--faded');
-    forms.classList.remove('ad-form--disabled');
-    for (i = 0; i < fields.length; i++) {
-      fields[i].removeAttribute('disabled');
-    }
-    window.load(window.setup.successHandler, window.setup.errorHandler);
-    mainPin.removeEventListener('click', mapActiveHandler);
-  };
+  var mainPin = document.querySelector('.map__pin--main');
   var active = false;
-
   mainPin.addEventListener('mousedown', function (evt) {
     var startCoords = {
       x: evt.clientX,
@@ -56,8 +39,9 @@
     var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
       if (!active) {
-        mainPin.addEventListener('click', mapActiveHandler);
+        mainPin.addEventListener('click', window.setup.mapActiveHandler());
       }
+      active = true;
       document.removeEventListener('mousemove', mouseMoveHandler);
       document.removeEventListener('mouseup', mouseUpHandler);
     };
