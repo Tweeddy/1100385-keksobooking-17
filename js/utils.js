@@ -1,19 +1,35 @@
 'use strict';
 (function () {
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+  var DEBOUNCE_INTERVAL = 500;
   window.utils = {
-    MIN_X: 0,
-    MAX_X: 1135,
-    MIN_Y: 130,
-    MAX_Y: 630,
-    PIN_WIDTH: 50,
-    PIN_HEIGHT: 70,
-    getRandomNumber: function (min, max) {
-      var rand = min - 0.5 + Math.random() * (max - min + 1);
-      rand = Math.round(rand);
-      return rand;
+    MainPinCoordinate: {
+      PIN_X: 570,
+      PIN_Y: 375
     },
-    getRandomElement: function (array) {
-      return array[this.getRandomNumber(0, array.length)];
+    MapCoordinate: {
+      MIN_X: 0,
+      MAX_X: 1135,
+      MIN_Y: 130,
+      MAX_Y: 630,
+    },
+    isEscEvent: function (evt, action) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        action();
+      }
+    },
+    isEnterEvent: function (evt, action) {
+      if (evt.keyCode === ENTER_KEYCODE) {
+        action();
+      }
+    },
+    debounce: function (cb) {
+      var lastTimeout;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
     }
   };
 }());
