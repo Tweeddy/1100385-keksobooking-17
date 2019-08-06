@@ -1,62 +1,68 @@
 'use strict';
 (function () {
+  var data = [];
   var map = document.querySelector('.map');
   var form = document.querySelector('.ad-form');
   var fields = document.querySelectorAll('fieldset');
   var mainPin = document.querySelector('.map__pin--main');
+  var onErrorEscPress = function (evt) {
+    window.utils.isEscEvent(evt, closePopup);
+  };
+
+  var closePopup = function () {
+    var errorCard = document.querySelector('.error');
+    if (errorCard) {
+      errorCard.remove();
+    }
+    document.removeEventListener('keydown', onErrorEscPress);
+    document.removeEventListener('click', closePopup);
+    window.setup.inActiveHandler();
+  };
+  var errorWindow = function (errorMessage) {
+    var errorBlock = document.querySelector('#error').content.querySelector('.error');
+    var errorText = document.querySelector('#error').content.querySelector('.error__message');
+    errorText.textContent = errorMessage;
+    var errorModule = errorBlock.cloneNode(true);
+    var main = document.querySelector('main');
+    main.appendChild(errorModule);
+  };
   for (var i = 0; i < fields.length; i++) {
     fields[i].setAttribute('disabled', 'disabled');
   }
-  var data = [];
-  var getTypeValue = function (housetypeChangeHandler) {
-    var type = document.querySelector('#housing-type');
-    type.addEventListener('change', housetypeChangeHandler);
-    return type;
-  };
-  var updatePin = function () {
-    window.data.renderNotes(data);
-    getTypeValue(function (evt) {
-      var selected = data
-      .filter(function (it) {
-        return it.offer.type === evt.target.value;
-      });
-      window.data.renderNotes(selected);
-      if (evt.target.value === 'any') {
-        window.data.renderNotes(data);
-      }
-    });
-  };
+  window.filters.inactive();
   window.setup = {
     mapActiveHandler: function () {
+      window.load(window.setup.successHandler, window.setup.errorHandler);
       map.classList.remove('map--faded');
-      form.classList.remove('ad-form--disabled');
       for (i = 0; i < fields.length; i++) {
         fields[i].removeAttribute('disabled');
       }
-      window.load(window.setup.successHandler, window.setup.errorHandler);
-      mainPin.removeEventListener('click', this.mapActiveHandler);
+      form.classList.remove('ad-form--disabled');
     },
+
     inActiveHandler: function () {
       map.classList.add('map--faded');
+      form.reset();
       form.classList.add('ad-form--disabled');
       for (i = 0; i < fields.length; i++) {
         fields[i].setAttribute('disabled', 'disabled');
       }
+      window.data.removeNotes();
+      window.data.addAdress(window.utils.MainPinCoordinate.PIN_X, window.utils.MainPinCoordinate.PIN_Y);
+      mainPin.style.left = '570px';
+      mainPin.style.top = '375px';
+      window.filters.inactive();
       document.removeEventListener('click', this.inActiveHandler);
     },
     errorHandler: function (errorMessage) {
-      var errorTemplate = document.querySelector('#error').content.cloneNode(true);
-      errorTemplate.querySelector('p').textContent = errorMessage;
-      var promo = document.querySelector('main');
-      promo.appendChild(errorTemplate);
-      document.addEventListener('click', function () {
-        promo.removeChild(promo.lastChild);
-        window.setup.inActiveHandler();
-      });
+      errorWindow(errorMessage);
+      document.addEventListener('keydown', onErrorEscPress);
+      document.addEventListener('click', closePopup);
     },
     successHandler: function (notes) {
       data = notes;
-      updatePin();
+      window.data.renderNotes(data);
+      window.filters.filterPins(data);
     }
   };
 }()

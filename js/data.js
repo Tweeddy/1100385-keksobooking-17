@@ -1,15 +1,16 @@
 'use strict';
 (function () {
-  var PIN_OFFSET_X = 32;
-  var PIN_OFFSET_Y = 87;
   var PINS_NUMBER = 5;
+  var PinOffset = {
+    X: 32,
+    Y: 87
+  };
   var adress = document.querySelector('#address');
   var similarListElement = document.querySelector('.map__pins');
 
   window.data = {
     addAdress: function (adressX, adressY) {
-      adress.setAttribute('disabled', 'disabled');
-      adress.value = (adressX + PIN_OFFSET_X) + ', ' + (adressY + PIN_OFFSET_Y);
+      adress.value = (adressX + PinOffset.X) + ', ' + (adressY + PinOffset.Y);
     },
     generateNotes: function (note) {
       var pinTemplate = document.querySelector('#pin').content;
@@ -36,6 +37,7 @@
         fragment.appendChild(window.data.generateNotes(notes[i]));
       }
       similarListElement.appendChild(fragment);
+      window.filters.active();
     },
   };
 }());
