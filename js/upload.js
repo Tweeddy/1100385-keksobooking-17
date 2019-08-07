@@ -2,7 +2,7 @@
 (function () {
   var URL = 'https://js.dump.academy/keksobooking';
   var STATUS_CODE_OK = 200;
-  var TIMEOUT = 1000;
+  var TIMEOUT = 2000;
   window.upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.addEventListener('timeout', function () {

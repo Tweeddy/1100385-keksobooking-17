@@ -22,20 +22,20 @@
   var typeChangeHandler = function (evt) {
     switch (evt.target.value) {
       case 'bungalo':
-        pricePerNight.setAttribute('min', Price.BUNGALO);
-        pricePerNight.setAttribute('placeholder', Price.BUNGALO);
+        pricePerNight.min = Price.BUNGALO;
+        pricePerNight.placeholder = Price.BUNGALO;
         break;
       case 'flat':
-        pricePerNight.setAttribute('min', Price.FLAT);
-        pricePerNight.setAttribute('placeholder', Price.FLAT);
+        pricePerNight.min = Price.FLAT;
+        pricePerNight.placeholder = Price.FLAT;
         break;
       case 'house':
-        pricePerNight.setAttribute('min', Price.HOUSE);
-        pricePerNight.setAttribute('placeholder', Price.HOUSE);
+        pricePerNight.min = Price.HOUSE;
+        pricePerNight.placeholder = Price.HOUSE;
         break;
       case 'palace':
-        pricePerNight.setAttribute('min', Price.PALACE);
-        pricePerNight.setAttribute('placeholder', Price.PALACE);
+        pricePerNight.min = Price.PALACE;
+        pricePerNight.placeholder = Price.PALACE;
         break;
     }
   };
@@ -50,33 +50,33 @@
     capacity.value = oneGuest.value;
     var options = capacity.querySelectorAll('option');
     for (var i = 0; i < options.length; i++) {
-      options[i].removeAttribute('disabled');
+      options[i].disabled = false;
     }
   };
-  twoGuests.setAttribute('disabled', 'disabled');
-  threeGuests.setAttribute('disabled', 'disabled');
-  noneGuests.setAttribute('disabled', 'disabled');
+  twoGuests.disabled = true;
+  threeGuests.disabled = true;
+  noneGuests.disabled = true;
 
   var roomNumberChangeHandler = function (evt) {
     reset();
     switch (evt.target.value) {
       case '1':
-        twoGuests.setAttribute('disabled', 'disabled');
-        threeGuests.setAttribute('disabled', 'disabled');
-        noneGuests.setAttribute('disabled', 'disabled');
+        twoGuests.disabled = true;
+        threeGuests.disabled = true;
+        noneGuests.disabled = true;
         break;
       case '2':
-        threeGuests.setAttribute('disabled', 'disabled');
-        noneGuests.setAttribute('disabled', 'disabled');
+        threeGuests.disabled = true;
+        noneGuests.disabled = true;
         break;
       case '3':
-        noneGuests.setAttribute('disabled', 'disabled');
+        noneGuests.disabled = true;
         break;
       case '100':
         capacity.value = noneGuests.value;
-        oneGuest.setAttribute('disabled', 'disabled');
-        twoGuests.setAttribute('disabled', 'disabled');
-        threeGuests.setAttribute('disabled', 'disabled');
+        oneGuest.disabled = true;
+        twoGuests.disabled = true;
+        threeGuests.disabled = true;
         break;
     }
   };
@@ -85,7 +85,7 @@
     if (successCard) {
       successCard.remove();
     }
-    document.addEventListener('click', closePopupSuccess);
+    document.removeEventListener('click', closePopupSuccess);
     document.removeEventListener('keydown', onSuccessEscPress);
   };
 

@@ -79,7 +79,7 @@
     return true;
   }
   var filtersChangeHandler = function () {
-    window.card.removePopup();
+    window.card.remove();
     window.filters.filterPins(data);
   };
 
@@ -87,16 +87,16 @@
 
   window.filters = {
     active: function () {
-      field.removeAttribute('disabled', 'disabled');
+      field.disabled = false;
       for (var i = 0; i < selects.length; i++) {
-        selects[i].removeAttribute('disabled', 'disabled');
+        selects[i].disabled = false;
       }
       filters.classList.add('.ad-form--disabled');
     },
     inactive: function () {
-      field.setAttribute('disabled', 'disabled');
+      field.disabled = true;
       for (var i = 0; i < selects.length; i++) {
-        selects[i].setAttribute('disabled', 'disabled');
+        selects[i].disabled = true;
       }
       filters.classList.add('.ad-form--disabled');
     },
@@ -112,7 +112,7 @@
         );
       });
       window.utils.debounce(function () {
-        window.data.renderNotes(selected);
+        window.data.render(selected);
       });
     }
   };
